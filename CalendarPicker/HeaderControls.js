@@ -40,7 +40,7 @@ export default function HeaderControls(props) {
         <Controls
           label={`${ month } ${ year }`}
           onPressControl={onPressTitle}
-          styles={styles.monthLabel}
+          styles={[styles.monthLabel]}
           textStyles={textStyle}
         />
       </View>
