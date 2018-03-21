@@ -14,6 +14,7 @@ export default function HeaderControls(props) {
     currentYear,
     onPressNext,
     onPressPrevious,
+    onPressTitle,
     months,
     previousTitle,
     nextTitle,
@@ -36,9 +37,12 @@ export default function HeaderControls(props) {
         textStyles={textStyle}
       />
       <View>
-        <Text style={[styles.monthLabel, textStyle]}>
-           { month } { year }
-        </Text>
+        <Controls
+          label={`${ month } ${ year }`}
+          onPressControl={onPressTitle}
+          styles={styles.monthLabel}
+          textStyles={textStyle}
+        />
       </View>
       <Controls
         label={next}
@@ -55,4 +59,5 @@ HeaderControls.propTypes = {
   currentYear: PropTypes.number,
   onPressNext: PropTypes.func,
   onPressPrevious: PropTypes.func,
+  onPressTitle: PropTypes.func,
 };

@@ -36,6 +36,7 @@ export default class CalendarPicker extends Component {
     this.handleOnPressPrevious = this.handleOnPressPrevious.bind(this);
     this.handleOnPressNext = this.handleOnPressNext.bind(this);
     this.handleOnPressDay = this.handleOnPressDay.bind(this);
+    this.handleOnPressTitle = this.handleOnPressTitle.bind(this);
     this.onSwipe = this.onSwipe.bind(this);
   }
 
@@ -174,6 +175,11 @@ export default class CalendarPicker extends Component {
     this.props.onMonthChange && this.props.onMonthChange(moment({year: currentYear, month: nextMonth}));
   }
 
+  handleOnPressTitle() {
+    let { currentMonth, currentYear } = this.state;
+    this.props.onPressTitle && this.props.onPressTitle(moment({year: currentYear, month: currentMonth}));
+  }
+
   onSwipe(gestureName) {
     switch (gestureName) {
       case SWIPE_LEFT:
@@ -276,6 +282,7 @@ export default class CalendarPicker extends Component {
             initialDate={moment(initialDate)}
             onPressPrevious={this.handleOnPressPrevious}
             onPressNext={this.handleOnPressNext}
+            onPressTitle={this.handleOnPressTitle}
             months={months}
             previousTitle={previousTitle}
             nextTitle={nextTitle}
