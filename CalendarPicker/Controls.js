@@ -20,7 +20,7 @@ export default function Controls({ styles, textStyles, label, onPressControl, ch
      onPress={() => onPressControl()}
    >
      <View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
-       <Text style={[styles, textStyles]}>
+       <Text style={[{ color: '#00958E' }, styles, textStyles]}>
          { label } <Text style={{ color: '#B2B2B2' }}>{ ChevronUnicode }</Text>
        </Text>
      </View>
