@@ -12,6 +12,8 @@ import Weekdays from './Weekdays';
 import DaysGridView from './DaysGridView';
 import Swiper from './Swiper';
 import moment from 'moment';
+import Picker from 'react-native-roll-picker';
+import _ from 'lodash';
 
 const SWIPE_LEFT = 'SWIPE_LEFT';
 const SWIPE_RIGHT = 'SWIPE_RIGHT';
@@ -30,6 +32,9 @@ export default class CalendarPicker extends Component {
       selectedStartDate: null,
       selectedEndDate: null,
       styles: {},
+      yearSelector: {
+        visible: false,
+      },
     };
     this.updateScaledStyles = this.updateScaledStyles.bind(this);
     this.updateMonthYear = this.updateMonthYear.bind(this);
@@ -176,8 +181,11 @@ export default class CalendarPicker extends Component {
   }
 
   handleOnPressTitle() {
-    let { currentMonth, currentYear } = this.state;
-    this.props.onPressTitle && this.props.onPressTitle(moment({year: currentYear, month: currentMonth}));
+    this.setState({
+      yearSelector: {
+        visible: !this.state.yearSelector.visible,
+      },
+    });
   }
 
   onSwipe(gestureName) {
@@ -205,6 +213,7 @@ export default class CalendarPicker extends Component {
       selectedStartDate,
       selectedEndDate,
       styles,
+      yearSelector,
     } = this.state;
 
     const {
@@ -269,6 +278,28 @@ export default class CalendarPicker extends Component {
       }
     }
 
+    const yearSelectorData = [];
+    const numberOfYearsToParseForBirthday = 100;
+    const birthdayInitialYear = ( parseInt(moment().add(1, 'y').format('YYYY').toString()) - numberOfYearsToParseForBirthday);
+    for(let i = 0; i <= numberOfYearsToParseForBirthday; i++){
+      yearSelectorData.push({ year :  (birthdayInitialYear + i) });
+    }
+
+    const monthSelectorData = [
+      {month: 'January',},
+      {month: 'February'},
+      {month: 'March'},
+      {month: 'April'},
+      {month: 'May'},
+      {month: 'June'},
+      {month: 'July'},
+      {month: 'August'},
+      {month: 'September'},
+      {month: 'October'},
+      {month: 'November'},
+      {month: 'December'}
+    ]
+
     return (
       <Swiper
         onSwipe={direction => this.props.enableSwipe && this.onSwipe(direction)}
@@ -287,35 +318,69 @@ export default class CalendarPicker extends Component {
             previousTitle={previousTitle}
             nextTitle={nextTitle}
             textStyle={textStyle}
+            calendarIsShown={this.state.yearSelector.visible}
           />
-          <Weekdays
-            styles={styles}
-            startFromMonday={startFromMonday}
-            weekdays={weekdays}
-            textStyle={textStyle}
-          />
-          <DaysGridView
-            month={currentMonth}
-            year={currentYear}
-            styles={styles}
-            onPressDay={this.handleOnPressDay}
-            disabledDates={disabledDatesTime}
-            minRangeDuration={minRangeDurationTime}
-            maxRangeDuration={maxRangeDurationTime}
-            startFromMonday={startFromMonday}
-            allowRangeSelection={allowRangeSelection}
-            selectedStartDate={selectedStartDate && moment(selectedStartDate)}
-            selectedEndDate={selectedEndDate && moment(selectedEndDate)}
-            minDate={minDate && moment(minDate)}
-            maxDate={maxDate && moment(maxDate)}
-            textStyle={textStyle}
-            todayTextStyle={todayTextStyle}
-            selectedDayStyle={selectedDayStyle}
-            selectedRangeStartStyle={selectedRangeStartStyle}
-            selectedRangeStyle={selectedRangeStyle}
-            selectedRangeEndStyle={selectedRangeEndStyle}
-            customDatesStyles={customDatesStyles}
-          />
+          {yearSelector.visible ?
+          <View style={{ height: 300, flexDirection:'row' }}>
+          <View style={{ flex: 1 }}>
+              <Picker 
+                data = {monthSelectorData}
+                ref = '_monthSelector'
+                name = 'month'
+                onRowChange = {index => {
+                  this.setState({
+                    currentMonth: index
+                  });
+                }}
+                selectTo = {_.findIndex(monthSelectorData, {'month': Utils.MONTHS[currentMonth]})}
+                />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Picker 
+                data = {yearSelectorData}
+                ref = 'yearSelectorData'
+                name = 'year'
+                onRowChange = {index => {
+                  this.setState({
+                    currentYear: yearSelectorData[index].year
+                  });
+                }}
+                selectTo = {_.findIndex(yearSelectorData, {'year': currentYear})}
+              />
+            </View>
+          </View>
+          :
+          <View>
+            <Weekdays
+              styles={styles}
+              startFromMonday={startFromMonday}
+              weekdays={weekdays}
+              textStyle={textStyle}
+            />
+            <DaysGridView
+              month={currentMonth}
+              year={currentYear}
+              styles={styles}
+              onPressDay={this.handleOnPressDay}
+              disabledDates={disabledDatesTime}
+              minRangeDuration={minRangeDurationTime}
+              maxRangeDuration={maxRangeDurationTime}
+              startFromMonday={startFromMonday}
+              allowRangeSelection={allowRangeSelection}
+              selectedStartDate={selectedStartDate && moment(selectedStartDate)}
+              selectedEndDate={selectedEndDate && moment(selectedEndDate)}
+              minDate={minDate && moment(minDate)}
+              maxDate={maxDate && moment(maxDate)}
+              textStyle={textStyle}
+              todayTextStyle={todayTextStyle}
+              selectedDayStyle={selectedDayStyle}
+              selectedRangeStartStyle={selectedRangeStartStyle}
+              selectedRangeStyle={selectedRangeStyle}
+              selectedRangeEndStyle={selectedRangeEndStyle}
+              customDatesStyles={customDatesStyles}
+            />
+          </View>
+          }
         </View>
       </Swiper>
     );

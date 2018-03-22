@@ -79,6 +79,7 @@
   "dependencies": {
     "expo": "^15.1.0",
     "prop-types": "^15.6.0",
+    "react-native-roll-picker": "git+https://github.com/LevelUpDevelopment/react-native-roll-picker.git",
     "uuid": "3.1.0"
   }
 }
