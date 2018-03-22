@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-export default function Controls({ styles, textStyles, label, onPressControl }) {
+export default function Controls({ styles, textStyles, label, onPressControl, chevronPos }) {
 /*
   ▲ - U+25B2 BLACK UP-POINTING TRIANGLE
   ▼ - U+25BC BLACK DOWN-POINTING TRIANGLE
