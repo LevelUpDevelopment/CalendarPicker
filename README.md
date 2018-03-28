@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
 | **`onDateChange`** | `Function` | Optional. Callback when a date is selected. Returns Moment `date` as first parameter.|
 | **`onMonthChange`** | `Function` | Optional. Callback when Previous / Next month is pressed. Returns Moment `date` as first parameter.|
 | **`onPressTitle`** | `Function` | Optional. Callback when the title of the calendar gets clicked. Returns Moment `date` as first parameter.|
+| **`hideControlButtons`** | `Boolean` | Optional. Allow to show or hide the control buttons (Previous, Next). Default is `false` |
 # Styles
 Some styles will overwrite some won't. For instance:
 - If you provide textStyle with fontFamily and color, out of ranges dates will not apply your color, just fontFamily.

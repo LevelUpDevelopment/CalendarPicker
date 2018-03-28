@@ -20,6 +20,7 @@ export default function HeaderControls(props) {
     nextTitle,
     textStyle,
     calendarIsShown,
+    hideControlButtons,
   } = props;
   const MONTHS = months? months : Utils.MONTHS; // English Month Array
   // getMonth() call below will return the month number, we will use it as the
@@ -31,12 +32,14 @@ export default function HeaderControls(props) {
 
   return (
     <View style={styles.headerWrapper}>
+      {!hideControlButtons &&
       <Controls
         label={previous}
         onPressControl={onPressPrevious}
         styles={[styles.monthSelector, styles.prev]}
         textStyles={textStyle}
       />
+      }
       <Controls
         label={`${ month } ${ year }`}
         onPressControl={onPressTitle}
@@ -44,12 +47,14 @@ export default function HeaderControls(props) {
         textStyles={textStyle}
         chevronPos={(calendarIsShown ? 'up' : 'down')}
       />
+      {!hideControlButtons &&
       <Controls
         label={next}
         onPressControl={onPressNext}
         styles={[styles.monthSelector, styles.next]}
         textStyles={textStyle}
       />
+      }
     </View>
   );
 }
@@ -61,4 +66,5 @@ HeaderControls.propTypes = {
   onPressPrevious: PropTypes.func,
   onPressTitle: PropTypes.func,
   calendarIsShown: PropTypes.bool,
+  hideControlButtons: PropTypes.bool,
 };
