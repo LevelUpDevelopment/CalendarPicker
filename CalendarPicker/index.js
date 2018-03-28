@@ -50,6 +50,7 @@ export default class CalendarPicker extends Component {
     scaleFactor: 375,
     enableSwipe: true,
     onDateChange: () => { console.log('onDateChange() not provided') },
+    hideControlButtons: true,
   }
 
   componentWillMount() {
@@ -237,6 +238,7 @@ export default class CalendarPicker extends Component {
       maxRangeDuration,
       swipeConfig,
       customDatesStyles,
+      hideControlButtons,
     } = this.props;
 
     let disabledDatesTime = [];
@@ -319,6 +321,7 @@ export default class CalendarPicker extends Component {
             nextTitle={nextTitle}
             textStyle={textStyle}
             calendarIsShown={this.state.yearSelector.visible}
+            hideControlButtons={hideControlButtons}
           />
           {yearSelector.visible ?
           <View style={{ height: 300, flexDirection:'row' }}>
